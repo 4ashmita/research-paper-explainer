@@ -52,3 +52,6 @@ Required Content:
 - Methods
 - Results
 - Discussion / Conclusion
+
+**Unit Tests**
+One can test the code bby giving a few research papers that you are familiar with. This would help you tell wether the summary is accurate or not if you are already familiar with the paper. The paper must be in txt format. You can also test the code with a file that is missing some information and you should see it still produce a summary but it won't be as accurate as giving it a compete paper.
