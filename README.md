@@ -1,29 +1,23 @@
-# research-paper-explainer
-This research paper explainer is a tool that helps break down complicated research papers by generating simplified summaries of the sections. The user will upload a pdf, the system will extract the text and use a LLM to produce a summary of the whole paper, generate key points for each section, define terms that are complicated and give the key contributions. The system will also identify technical terms and generate a glossary so researchers and students can refer back to it if needed. Retrieval methods are used so that the model’s explanations remain grounded in the content of the uploaded paper. This tool makes dense research papers more accessible for students and researchers who want to quickly understand the main ideas and results.
+# research-abstract-explainer
+This project focuses on building a small tokenizer-based model that can interpret scientific language and translate it into everyday, accessible language. The model will be trained on a dataset of research paper abstracts and will be able to take in new abstracts as input and generate simplified summaries. The data will be taken from arxiv a huge dataset with research abstracts
 
 **Logic**
 
-This program is an LLM-powered research paper summarizer. The goal is to take a research paper, identify the most important parts, and produce a clear summary that is easier and faster to read than the full paper. It makes the paper easier to read for those who do not understand the techincal jargon. The program pulls out the core ideas such as the research question, methods, results, and conclusions. This program is useful for students and researchers who need to read many paper quickly and efficiently. This can also make a new field or topic sound less daunting as it breaks the paper down into easily digestible parts.
+This project develops an LLM-powered research paper summarizer that combines a custom-built tokenizer with the GPT-4 model. The system is designed to process scientific abstracts, identify their most important ideas, and generate concise summaries that are easy for a general audience to understand. A key component of the project is the tokenizer, which is built from scratch to better handle domain-specific scientific terminology and structure. By translating complex language into everyday phrasing, the program aims to make academic research more accessible while preserving the core meaning and insights of the original text.
 
 **load_paper(file_path)**
 
 Parameter: file_path(String) -> the path to the input file which contains the text
 Purpose: Opens and reads the paper so the rest of the program can process it
 
-**retrieve_sections(paper_text)**
-
-Parameter: paper_text(String) -> this is the full text of the paper
-Purpose: Separates the paper into meaningful sections such as title, abstract, introduction, methods, results, and conclusion.
-
 **clean_text(paper_text)**
 
 Parameter: paper_text(String) -> this is the full text of the paper
 Purpose: Removes unnecessary formatting, extra spaces, citation clutter, or broken line breaks.
 
-**summarize_paper(paper_text, summary_type="general", max_length=300)**
+**summarize_paper(paper_text, max_length=300)**
 
 Parameters: paper_text(String) -> this is the full text of the paper
-            summary_type(String) -> this is the type of summary the reader wants. examples: "general", "sections", "results", "simple"
             max_length(int) -> how long the summary should be
 Purpose: Generates the summary using the language model.
 
@@ -35,23 +29,13 @@ Purpose: Writes the summary to a file.
 
 **Example Use Cases**
 
-A student might use this program when preparing for an exam or writing a literature review. Instead of reading 20 full papers word-for-word, they could first generate summaries and decide which papers deserve a closer read.
-A researcher might use it to keep up with newly published papers in their field. Since academic publishing moves quickly, a summarizer can help them scan papers efficiently and identify the ones most relevant to their work.
-Someone new to a topic could also use it as a learning tool. A simplified summary can make unfamiliar research easier to approach before reading the original paper.
-As shown above this tool can be used by a variety of different people from those who are researchers or thoe just curious about a topic
+This is kind of the base for a future creation of a full research paper LLM. Right now anyone can use this to summarize the abstract of any paper given. Most people read the abstract first to get an overview of the whole project and this would help them understand the abstract without getting confused by the scientific jargon
 
 **Input Data Structure**
 
 Format: txt file
 Required Content:
-- The text of the paper, ideally in readable order
-- Best if it includes labeled sections such as:
-- Title
-- Abstract
-- Introduction
-- Methods
-- Results
-- Discussion / Conclusion
+- The text of the abstract
 
 **Unit Tests**
-One can test the code bby giving a few research papers that you are familiar with. This would help you tell wether the summary is accurate or not if you are already familiar with the paper. The paper must be in txt format. You can also test the code with a file that is missing some information and you should see it still produce a summary but it won't be as accurate as giving it a compete paper.
+I will be providing a test_data.txt file with a bunch of abstracts that can be used to test the gpt-4 model. One could also test the project by providing their own abstracts that they would want tested.
