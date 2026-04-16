@@ -1,7 +1,7 @@
 import re
 from collections import Counter
 
-class tokenizer:
+class Tokenizer:
     def __init__(self, vocab=500):
         self.vocab_size = vocab
         self.token_to_id = {"[PAD]": 0, "[UNK]": 1, "[BOS]": 2,"[EOS]": 3}
