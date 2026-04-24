@@ -1,4 +1,6 @@
 from tokenizer import Tokenizer
+from torch.utils.data import DataLoader
+from dataset import AbstractData
 
 with open('data/clean_data.txt', 'r', encoding="utf-8") as fh:
     text = [line.strip() for line in fh if line.strip()]
@@ -32,9 +34,23 @@ dataset = []
 for t in text:
     input_ids, target_ids = sequence(t, tokenizer, MAX_LENGTH)
     dataset.append((input_ids, target_ids))
-
+"""""
 print("Number of examples:", len(dataset))
 print("First input:", dataset[0][0])
 print("First target:", dataset[0][1])
 print("Input length:", len(dataset[0][0]))
 print("Target length:", len(dataset[0][1]))
+"""
+
+torch_dataset = AbstractData(dataset)
+
+loader = DataLoader(
+    torch_dataset,
+    batch_size=16,
+    shuffle=True
+)
+
+batch = next(iter(loader))
+
+print(batch["input_ids"].shape)
+print(batch["target_id"].shape)
