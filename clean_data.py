@@ -10,13 +10,13 @@ def clean(text):
 
 cleaned_text = []
 
-with open("data/raw_data.txt", "r", encoding="utf-8") as fh:
+with open("Unit_Test/raw_out_data.txt", "r", encoding="utf-8") as fh:
     for line in fh:
         cleaned = clean(line)
         if len(cleaned) > 50:
             cleaned_text.append(cleaned)
 
-with open("data/clean_data.txt", "w", encoding="utf-8") as fh:
+with open("Unit_Test/clean__out_data.txt", "w", encoding="utf-8") as fh:
     for l in cleaned_text:
         fh.write(l + "\n")
 
