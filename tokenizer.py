@@ -2,6 +2,28 @@ import re
 from collections import Counter
 
 class Tokenizer:
+    """
+    This is the translator between human language and the numbers the Transformer model understands
+    
+    Attributes
+    ----------------
+    vocab (default 500): int
+        the maximumnnumber of unique words allowed
+
+    Methods
+    -----------------
+    def tokenize(self, text)
+        This splits the text
+    text
+        The text that will be split
+    
+    def train(self, text)
+        Builds the dictionary
+    text
+        the text that is used to base the dictionary off of
+    
+    def encode
+    """
     def __init__(self, vocab=500):
         self.vocab_size = vocab
         self.token_to_id = {"[PAD]": 0, "[UNK]": 1, "[BOS]": 2,"[EOS]": 3}
