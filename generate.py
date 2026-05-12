@@ -3,6 +3,7 @@ import torch.nn.functional as F
 from model import MiniGPT
 from tokenizer import Tokenizer
 
+# Loads the model and important info
 checkpoint = torch.load("mini_gpt_model.pt", map_location="cpu")
 
 vocab_size = checkpoint["vocab_size"]
@@ -20,26 +21,28 @@ model.load_state_dict(checkpoint["model_state_dict"])
 model.eval()
 
 def generate(model, tokenizer, prompt, max_new_tokens=50,temperature=0.7, use_argmax=False):
+    # This generates the actual text from the model
     model.eval()
 
-    input_id = tokenizer.encode(prompt)
+    input_id = tokenizer.encode(prompt) # Converts the input into tokens
 
-    unk_id = tokenizer.token_to_id["[UNK]"]
+    # Gets the special ids for UNK and EOS
+    unk_id = tokenizer.token_to_id["[UNK]"] 
     eos_id = tokenizer.token_to_id["[EOS]"]
 
-    for _ in range(max_new_tokens):
-        input_tensor = torch.tensor([input_id], dtype=torch.long)
+    for _ in range(max_new_tokens): # Loop to generate one word at a time
+        input_tensor = torch.tensor([input_id], dtype=torch.long) # Wraps list in PyTorch tensor
 
-        with torch.no_grad():
-            logits = model(input_tensor)
+        with torch.no_grad(): # Tells torch not to calculate the gradients
+            logits = model(input_tensor) # Model looks at the sequence and produces a score for every single word in its 40k vocabulary
 
-        next_token_logits = logits[0, -1]
+        next_token_logits = logits[0, -1] # Scores for very last word in sequence
 
-        next_token_logits[unk_id] = -1e9 
+        next_token_logits[unk_id] = -1e9 # manually set the score of the [UNK] token to be extremely low so the model never chooses it.
 
-        if use_argmax:
+        if use_argmax: # Greedy search -> choose the word with the highest score
             next_token_id = torch.argmax(next_token_logits).item()
-        else:
+        else: # Or use sampling. Temp: if temp is greater than 1 the scores become more equal, but if it is less than 1, the model ecomes more confident and focused 
             probs = torch.softmax(next_token_logits / temperature, dim=-1)
             next_token_id = torch.multinomial(probs, num_samples=1).item()
 

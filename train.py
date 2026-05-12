@@ -9,9 +9,9 @@ from dataset import AbstractData
 from model import MiniGPT
 
 DATA = "data/clean_data.txt" #Path to the clean data
-MAX_LENGTH = 512 #Training example will be 128 tokens long
+MAX_LENGTH = 512 #Training example will be 512 tokens long
 BATCH_SIZE = 16 #Will train on 16 examples at a time
-EPOCHS = 40 #Go through whole dataset 5 times
+EPOCHS = 40 #Go through whole dataset 40 times
 LEARNING_RATE = 3e-4 #Controls how big each model update is
 
 MODEL_SAVE_PATH = "mini_gpt_model.pt" #File where trained model will be saved
@@ -22,14 +22,7 @@ with open(DATA, "r") as fh:
 
 print("Loaded data: ", len(text))
 
-#Reads the data file
-with open(DATA, "r") as fh:
-    text = [line.strip() for line in fh if line.strip()]
-
-print("Loaded data: ", len(text))
-
-#Creates the tokenizer object
-
+#Reads the tokenizer object from the previous training
 with open("tokenizer.pkl", "rb") as f:
     tokenizer = pickle.load(f)
 
@@ -43,7 +36,7 @@ EOS_ID = tokenizer.token_to_id["[EOS]"] #End of Sequence
 vocab_size = len(tokenizer.id_to_token)
 print("vocabulary size: ", vocab_size)
 
-random.shuffle(text) # Add this before the packing loop
+random.shuffle(text) # shuffles the text so it isn't in order
 
 all_tokens = []
 for t in text:
@@ -64,6 +57,7 @@ torch_data = AbstractData(examples) #Wraps the examples in a PyTorch dataset cla
 loader = DataLoader(torch_data, batch_size=BATCH_SIZE, shuffle=True) #Creates the DataLoader
 print("Examples for Training: ", len(torch_data))
 
+# Chooses the device 
 if torch.backends.mps.is_available():
     device = torch.device("mps")
 elif torch.cuda.is_available():

@@ -5,6 +5,7 @@ from model import MiniGPT
 from tokenizer import Tokenizer
 
 def load_inference_objects(checkpoint_path="mini_gpt_summarizer.pt"):
+    # Reconstructs the model
     checkpoint = torch.load(checkpoint_path, map_location="cpu")
     
     vocab_size = checkpoint["vocab_size"]
@@ -12,10 +13,11 @@ def load_inference_objects(checkpoint_path="mini_gpt_summarizer.pt"):
     token_to_id = checkpoint["token_to_id"]
     id_to_token = checkpoint["id_to_token"]
 
-    tokenizer = Tokenizer(vocab=vocab_size)
+    tokenizer = Tokenizer(vocab=vocab_size) # Rebuilds the tokenizer
     tokenizer.token_to_id = token_to_id
     tokenizer.id_to_token = id_to_token
 
+    # Creates the model
     model = MiniGPT(vocab_size=vocab_size, max_len=max_length, embed_dim=512, num_heads=8, num_layers=4)
     model.load_state_dict(checkpoint["model_state_dict"])
     model.eval()
@@ -23,21 +25,24 @@ def load_inference_objects(checkpoint_path="mini_gpt_summarizer.pt"):
     return model, tokenizer
 
 def force_clean(text):
-    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii')
+    # Pre processes the prompt
+    text = unicodedata.normalize('NFKD', text).encode('ascii', 'ignore').decode('ascii') # breaks down complex characters into their base components and then ignores anything that isn't standard ASCII
     text = " ".join(text.split())
     return text
 
 def top_k_top_p_filtering(logits, top_p=0.9, filter_value=-float('Inf')):
-    sorted_logits, sorted_indices = torch.sort(logits, descending=True)
-    cumulative_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1)
-    sorted_indices_to_remove = cumulative_probs > top_p
-    sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone()
+    # prevents the model from choosing "nonsense" words while keeping the output creative
+    sorted_logits, sorted_indices = torch.sort(logits, descending=True) # Ranks every word in the vocabulary from "most likely" to "least likely" to appear next
+    cumulative_probs = torch.cumsum(F.softmax(sorted_logits, dim=-1), dim=-1) # Sums up the probabilities from the top down
+    sorted_indices_to_remove = cumulative_probs > top_p  # Only look at the top cluster of words that add up to 90% of the total probability
+    sorted_indices_to_remove[..., 1:] = sorted_indices_to_remove[..., :-1].clone() # Mutes the unlikely words by setting their scores to negative infinity
     sorted_indices_to_remove[..., 0] = 0
     indices_to_remove = sorted_indices[sorted_indices_to_remove]
     logits[indices_to_remove] = filter_value
     return logits
 
 def generate_summary(model, tokenizer, abstract, max_new_tokens=100, temperature=0.7, top_p=0.9):
+    
     model.eval()
     clean_abstract = force_clean(abstract)
     prompt = f"Abstract: {clean_abstract} Summary: This research paper introduces"

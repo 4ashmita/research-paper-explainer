@@ -12,10 +12,10 @@ abstracts = re.findall(r"Abstract:(.*?)(?=Summary:)", content, re.DOTALL)
 # Randomly sample 15
 sampled = random.sample(abstracts, 15) if len(abstracts) >= 15 else abstracts
 
-# Clean whitespace and re-add the 'Abstract:' label to each
-final_list = [f"Abstract: {a.strip()}" for a in sampled]
+# Clean whitespace
+final_list = [f"{a.strip()}" for a in sampled]
 
-# Write to your new file
+# Write to  new file
 with open('Unit_test/test_abstracts_training_set.txt', 'w', encoding='utf-8') as f:
     f.write("\n\n".join(final_list))
 
