@@ -40,3 +40,9 @@ Required Content:
 
 **Unit Tests**
 I have provided two test files. One is called test_abstract_training_set.txt and contains 15 abstracts from the training set. The other is called clean_out_data.txt which contains 24 abstracts collected from arXiv that are not used in the training set. That is a stress-test to observe Schema Over-generalization.
+
+**Notes**
+To run the model there are two steps:
+1st. Run train.py and let that go to completion. That may take some time as it is running 40 epochs on 4000 abstracts. 
+2nd. Run fine_tune.py and let that go to completion. This should be slightly faster as it only runs 10 epochs.
+If it seems slow and you want it to run faster, you can go to train_tokenizer.py and decrease the vocab_size from 40000 to 15000. Keep in mind that doing this however will lead to seeing more [UNK] in the output as the model will have IDs for a smaller amount of words.
