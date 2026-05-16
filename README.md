@@ -23,6 +23,7 @@ I have provided two test files. One is called test_abstract_training_set.txt and
 **How To Run**
 
 To run the project there are three steps:
+
 1st. Run train.py and let that go to completion. That may take some time as it is running 40 epochs on 4000 abstracts. 
 
 Note: If you want to see how it works you can run generate.py which is a script to let the first model generate scientific sound sentences. 
