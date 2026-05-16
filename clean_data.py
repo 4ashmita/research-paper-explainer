@@ -1,10 +1,10 @@
 import re
 def clean(text):
-    text = re.sub(r"\([^)]*\d{4}[^)]*\)", "", text)
-    text = re.sub(r"\[\d+\]", "", text)
-    text = re.sub(r"\$.*?\$", "", text)
-    text = re.sub(r"\\[a-zA-Z]+", "", text)
-    text = re.sub(r"[^a-zA-Z0-9.,!? ]", "", text)
+    text = re.sub(r"\([^)]*\d{4}[^)]*\)", "", text) # Deletes citation with years within abstract
+    text = re.sub(r"\[\d+\]", "", text) # Deletes the numbered bracket citations
+    text = re.sub(r"\$.*?\$", "", text) # Deletes the Latex math blocks within the abstract 
+    text = re.sub(r"\\[a-zA-Z]+", "", text) # Deletes Latex commands like /alpha
+    text = re.sub(r"[^a-zA-Z0-9.,!? ]", "", text) # Deletes anything that is not a standard letter, number, space, or basic punctuation
     text = " ".join(text.split())
     return text.strip()
 
