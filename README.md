@@ -33,8 +33,10 @@ Purpose: Generates the summary using the language model.
 **save_summary(abstract, summary, path)**
 
 Parameters: 
-    * **abstract(String)** -> The abstracts that the summary is based of of
+    * **abstract(String)** -> The abstracts that the summary is based of 
+
     * **summary(String)** -> The summary generate by the model
+    
     * **path(String)** -> Where to save the abstract and summaries
 
 Purpose: Writes the summary to a file.
