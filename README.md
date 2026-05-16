@@ -19,26 +19,23 @@ Purpose: Removes unnecessary formatting, extra spaces, citation clutter, or brok
 
 **generate_summary(model, tokenizer, abstract, max_new_tokens=100, temperature=0.7, top_p=0.9)**
 
-Parameters: **model(MiniGPT)** -> this is the llm model
-
-            **tokenizer(Tokenizer)** -> this is the tokenizer which contains the word to int vocabulary
-
-            **abstract(String)** -> This is the abstract that it will summarize
-
-            **max_new_tokens(int)** -> Tells how many tokens or words to make the summary
-
-            **temperature(float)** -> dictates how flat or sharp that probability distribution becomes before the model chooses a word
-
-            **top_p(float)** -> draws a dynamic boundary line based on cumulative probability
+Parameters: 
+    * **model(MiniGPT)** -> this is the llm model
+    * **tokenizer(Tokenizer)** -> this is the tokenizer which contains the word to int vocabulary
+    * **abstract(String)** -> This is the abstract that it will summarize
+    * **max_new_tokens(int)** -> Tells how many tokens or words to make the summary
+    * **temperature(float)** -> dictates how flat or sharp that probability distribution becomes before the model chooses a word
+    * **top_p(float)** -> draws a dynamic boundary line based on cumulative probability
 
 
 Purpose: Generates the summary using the language model.
 
 **save_summary(abstract, summary, path)**
 
-Parameters: **abstract(String)** -> The abstracts that the summary is based of of
-            **summary(String)** -> The summary generate by the model
-            **path(String)** -> Where to save the abstract and summaries
+Parameters: 
+    * **abstract(String)** -> The abstracts that the summary is based of of
+    * **summary(String)** -> The summary generate by the model
+    * **path(String)** -> Where to save the abstract and summaries
 
 Purpose: Writes the summary to a file.
 
