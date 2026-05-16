@@ -8,30 +8,38 @@ This project develops an LLM-powered research paper summarizer that combines a c
 **load_inference_objects(checkpoint)**
 
 Parameter: **checkpoint(String)** -> the pt file which saves the model itself
+
 Purpose: Opens and loads the necessary components liek the model and tokenizer
 
 **clean_text(paper_text)**
 
 Parameter: **paper_text(String)** -> this is the full text of the paper
+
 Purpose: Removes unnecessary formatting, extra spaces, citation clutter, or broken line breaks.
 
 **generate_summary(model, tokenizer, abstract, max_new_tokens=100, temperature=0.7, top_p=0.9)**
 
 Parameters: **model(MiniGPT)** -> this is the llm model
+
             **tokenizer(Tokenizer)** -> this is the tokenizer which contains the word to int vocabulary
+
             **abstract(String)** -> This is the abstract that it will summarize
+
             **max_new_tokens(int)** -> Tells how many tokens or words to make the summary
+
             **temperature(float)** -> dictates how flat or sharp that probability distribution becomes before the model chooses a word
+
             **top_p(float)** -> draws a dynamic boundary line based on cumulative probability
 
 
 Purpose: Generates the summary using the language model.
 
-**save_summary(abstract, summary, opath)**
+**save_summary(abstract, summary, path)**
 
 Parameters: **abstract(String)** -> The abstracts that the summary is based of of
             **summary(String)** -> The summary generate by the model
             **path(String)** -> Where to save the abstract and summaries
+
 Purpose: Writes the summary to a file.
 
 **Example Use Cases**
@@ -46,9 +54,11 @@ Required Content:
 - You must run that abstract throw clean_data.py which will remove unneccesary text such as the citations.
 
 **Unit Tests**
+
 I have provided two test files. One is called test_abstract_training_set.txt and contains 15 abstracts from the training set. The other is called clean_out_data.txt which contains 24 abstracts collected from arXiv that are not used in the training set. That is a stress-test to observe Schema Over-generalization.
 
 **How To Run**
+
 To run the model there are two steps:
 1st. Run train.py and let that go to completion. That may take some time as it is running 40 epochs on 4000 abstracts. 
 
