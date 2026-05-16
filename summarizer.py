@@ -76,3 +76,8 @@ def generate_summary(model, tokenizer, abstract, max_new_tokens=100, temperature
         generated_ids.append(next_token_id)
             
     return tokenizer.decode(generated_ids)
+
+def save_summary(abstract,summaries, path):
+    with open(path, "w", encoding="utf-8") as f:
+        for i, summary in enumerate(summaries):
+            f.write("Abstract: " + abstract[i] + "\n" + "Summary: " + summary + "\n")
