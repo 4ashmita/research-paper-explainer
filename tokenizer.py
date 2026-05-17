@@ -50,7 +50,7 @@ class Tokenizer:
         count = Counter() # Blank frequency counter
         for t in text: # Loop through the text
             token = self.tokenize(t) # Break the text into individual words
-            count.update(token) # Add wrod counts to master list
+            count.update(token) # Add word counts to master list
 
         common = count.most_common(self.vocab_size-4) # Counts the most frequent words, leaving space for the 4 special tokens
         
