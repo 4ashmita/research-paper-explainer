@@ -6,7 +6,7 @@ from tokenizer import Tokenizer
 
 def load_inference_objects(checkpoint_path="mini_gpt_summarizer.pt"):
     # Reconstructs the model
-    checkpoint = torch.load(checkpoint_path, map_location="cpu")
+    checkpoint = torch.load(checkpoint_path, map_location="mps")
     
     vocab_size = checkpoint["vocab_size"]
     max_length = checkpoint["max_length"]
@@ -64,7 +64,7 @@ def generate_summary(model, tokenizer, abstract, max_new_tokens=100, temperature
 
         next_token_logits = logits[0, -1, :] # Isolates the final row of scores for the next token as that is what we care about
         for token_id in set(generated_ids): # loops over the IDs already generated and lowers the score. This is to ensure the model does not keep repeating words that were already used
-            next_token_logits[token_id] -= 2.0 
+            next_token_logits[token_id] -= 0.5 
 
         filtered_logits = top_k_top_p_filtering(next_token_logits, top_p=top_p) # This filters the logits or scores
         probs = F.softmax(filtered_logits / temperature, dim=-1) # Divides filtered score by the temperature we set and runs them through softMax which gives real percentages that adds up to 100%
@@ -82,4 +82,4 @@ def save_summary(abstract,summaries, path):
     # Saves the summaries to the path specified
     with open(path, "w", encoding="utf-8") as f:
         for i, summary in enumerate(summaries):
-            f.write("Abstract: " + abstract[i] + "\n" + "Summary: " + summary + "\n")
+            f.write("Abstract: " + abstract[i] + "\n" + "Summary: " + summary + "\n\n")
