@@ -53,7 +53,7 @@ def generate(model, tokenizer, prompt, max_new_tokens=50,temperature=0.7, use_ar
     
     return tokenizer.decode(input_id)
 
-prompt = "The Expo 2025 Osaka is a world exhibition that will be held in"
+prompt = "Large language models are increasingly deployed as autonomous"
 output = generate(model, tokenizer, prompt, max_new_tokens=40)
 
 print("Prompt: ", prompt)

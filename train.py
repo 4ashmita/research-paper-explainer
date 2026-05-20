@@ -70,7 +70,7 @@ print("Using: ", device)
 #Creates the MiniGPT model
 model = MiniGPT(vocab_size=vocab_size, max_len=MAX_LENGTH, embed_dim=512, num_heads=8, num_layers=4, dropout=0.1).to(device)
 
-#Creates the loss function. Cross-Entropy is cimmonly used for classification problem and the token prediction is similar to a classification: Which token should come next
+#Creates the loss function. Cross-Entropy is commonly used for classification problem and the token prediction is similar to a classification: Which token should come next
 criterion = nn.CrossEntropyLoss(ignore_index=PAD_ID) #ignore_index=PAD_ID tells loss function to ignore padding tokens when calculating loss
 
 #Creates the optimizer which updates the model weights based on the loss
